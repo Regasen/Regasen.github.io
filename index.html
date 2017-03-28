@@ -32,8 +32,11 @@
 			url: url + "/connect/get?access_token=" + access_token,
 		});
 		request.done(function(msg) {
+		alert(msg);
 			var json = JSON.parse(msg);
+		alert(json);
 			$("#name").html(json.first_name + " " + json.last_name);
+		alert(json.last_name);
 		});
 	</script>
 </html>
