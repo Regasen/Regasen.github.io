@@ -5,18 +5,34 @@
 	</head>
 	
 	<body>
-		
+		Привет, <span id="name"></span>
 	</body>
 	
 	<script src="/js/jquery.min.js"></script>
 	<script>
+		var getURL = function getURL(sParam) {
+			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+				sURLVariables = sPageURL.split('&'),
+				sParameterName,
+				i;
+
+			for (i = 0; i < sURLVariables.length; i++) {
+				sParameterName = sURLVariables[i].split('=');
+
+				if (sParameterName[0] === sParam) {
+					return sParameterName[1] === undefined ? true : sParameterName[1];
+				}
+			}
+		};
+		var access_token = getURL("access_token");
 		var url = "http://regasen.ru";
 		
-		$.ajax({
-			url: url + "/connect/get",
-			data: data,
-			success: success,
-			dataType: dataType
+		var request = $.ajax({
+			url: url + "/connect/get?access_token=" + access_token,
+		});
+		request.done(function(msg) {
+			var json = JSON.parse(msg);
+			$("#name").html(json.first_name + " " + json.last_name);
 		});
 	</script>
 </html>
